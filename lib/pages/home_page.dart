@@ -30,10 +30,8 @@ class _HomePageState extends State<HomePage> {
         myMap["pk"] = element.id;
         myBands.add(BandModel.fromJson(myMap));
 
-
         setState(() {});
       });
-
     });
   }
 
@@ -166,9 +164,7 @@ class _HomePageState extends State<HomePage> {
                 deleteDocumentFirebase(pk);
                 getAllDataFirebase();
                 Navigator.pop(context);
-                setState(() {
-
-                });
+                setState(() {});
               },
               child: Text(
                 "Delete",
@@ -201,6 +197,7 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onLongPress: () {
+                  print(myBands[index].setlist);
                   deleteShowDialog(
                     band: myBands[index].band,
                     pk: myBands[index].pk,
@@ -212,17 +209,38 @@ class _HomePageState extends State<HomePage> {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(myBands[index].image))),
-                  child: Center(
-                    child: Text(
-                      myBands[index].band,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40.0,
-                        letterSpacing: 10,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        myBands[index].band,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40.0,
+                          letterSpacing: 10,
+                        ),
                       ),
-                    ),
+                      Column(
+                        children: myBands[index]
+                            .setlist!
+                            .map<Widget>(
+                              (e) => Container(
+                                margin: EdgeInsets.symmetric(vertical: 4.0),
+                                child: Text(
+                                  e.name,
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    letterSpacing: 1.5,
+                                    color: Colors.white70,
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      )
+                    ],
                   ),
                 ),
               );
