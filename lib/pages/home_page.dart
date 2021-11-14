@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getAllDataFirebase() {
-    bandCollection.orderBy('band').get().then((value) {
+    bandCollection.orderBy('id').limitToLast(2).get().then((value) {
       value.docs.forEach((element) {
         Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
         myBands.add(myMap);
