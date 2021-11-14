@@ -11,6 +11,7 @@ class BandModel {
     required this.band,
     required this.image,
     required this.status,
+    this.setlist,
   });
 
   String pk;
@@ -18,6 +19,7 @@ class BandModel {
   String band;
   String image;
   bool status;
+  List<Setlist>? setlist;
 
   factory BandModel.fromJson(Map<String, dynamic> json) => BandModel(
     pk: json["pk"],
@@ -25,6 +27,7 @@ class BandModel {
     band: json["band"],
     image: json["image"],
     status: json["status"],
+    setlist:json["setlist"] != null ? List<Setlist>.from(json["setlist"].map((x) => Setlist.fromJson(x))):[],
   );
 
   Map<String, dynamic> toJson() => {
@@ -33,5 +36,26 @@ class BandModel {
     "band": band,
     "image": image,
     "status": status,
+    "setlist": List<dynamic>.from(setlist!.map((x) => x.toJson())),
+  };
+}
+
+class Setlist {
+  Setlist({
+    required this.id,
+    required this.name,
+  });
+
+  int id;
+  String name;
+
+  factory Setlist.fromJson(Map<String, dynamic> json) => Setlist(
+    id: json["id"],
+    name: json["name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
   };
 }
