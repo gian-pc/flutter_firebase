@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
       value.docs.forEach((element) {
         Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
         myMap["pk"] = element.id;
-
         myBands.add(myMap);
         setState(() {});
       });
@@ -85,8 +84,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  deleteDocumentFirebase() {
-    bandCollection.doc("nqQjo7gIDRvmQ2SReqIr").delete().then((value) {
+  deleteDocumentFirebase(String pk) {
+    bandCollection.doc(pk).delete().then((value) {
       print("Banda eliminada");
     }).catchError((error) {
       print("Hubo un error al eliminar");
@@ -139,7 +138,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  deleteShowDialog({required String band}) {
+  deleteShowDialog({required String band, required String pk}) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -147,9 +146,7 @@ class _HomePageState extends State<HomePage> {
           title: Text("Delete band"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Are you sure you want to delete...$band?")
-            ],
+            children: [Text("Are you sure you want to delete...$band?")],
           ),
           actions: [
             TextButton(
@@ -161,7 +158,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                deleteDocumentFirebase(pk);
+                getAllDataFirebase();
+                Navigator.pop(context);
+                setState(() {
+
+                });
+              },
               child: Text(
                 "Delete",
               ),
@@ -193,7 +197,10 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onLongPress: () {
-                  deleteShowDialog(band: myBands[index]["band"]);
+                  deleteShowDialog(
+                    band: myBands[index]["band"],
+                    pk: myBands[index]["pk"],
+                  );
                 },
                 child: Container(
                   height: 370,
