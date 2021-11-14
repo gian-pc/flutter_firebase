@@ -11,6 +11,10 @@ class _HomePageState extends State<HomePage> {
   CollectionReference bandCollection =
       FirebaseFirestore.instance.collection('bandas');
 
+  TextEditingController _bandController = TextEditingController();
+  TextEditingController _imageBandController = TextEditingController();
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -40,10 +44,9 @@ class _HomePageState extends State<HomePage> {
 
   addDocumentFirebase() {
     bandCollection.add({
-      'id': 6,
-      'band': 'Metronomyssssss',
-      'image':
-          'https://studiosol-a.akamaihd.net/uploadfile/letras/fotos/3/6/7/f/367f472896e70c11cadc0efe791870c7.jpg',
+      'id': myBands.length + 1,
+      'band': _bandController.text,
+      'image':_imageBandController.text,
       'status': true,
     }).then((value) {
       print("Banda agregada");
@@ -101,19 +104,21 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
+                controller: _bandController,
                 decoration: InputDecoration(hintText: "Band"),
               ),
               SizedBox(
                 height: 8.0,
               ),
               TextField(
+                controller: _imageBandController,
                 decoration: InputDecoration(hintText: "Image"),
               ),
             ],
           ),
           actions: [
             TextButton(onPressed: (){}, child: Text("Cancel"),),
-            TextButton(onPressed: (){}, child: Text("Add"),),
+            TextButton(onPressed: (){addDocumentFirebase();}, child: Text("Add"),),
           ],
         );
       },
