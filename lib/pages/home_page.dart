@@ -14,7 +14,6 @@ class _HomePageState extends State<HomePage> {
   TextEditingController _bandController = TextEditingController();
   TextEditingController _imageBandController = TextEditingController();
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -46,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     bandCollection.add({
       'id': myBands.length + 1,
       'band': _bandController.text,
-      'image':_imageBandController.text,
+      'image': _imageBandController.text,
       'status': true,
     }).then((value) {
       print("Banda agregada");
@@ -96,9 +95,8 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text("Add band"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -117,8 +115,21 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           actions: [
-            TextButton(onPressed: (){}, child: Text("Cancel"),),
-            TextButton(onPressed: (){addDocumentFirebase();}, child: Text("Add"),),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                addDocumentFirebase();
+                _bandController.clear();
+                _imageBandController.clear();
+                Navigator.pop(context);
+              },
+              child: Text("Add"),
+            ),
           ],
         );
       },
