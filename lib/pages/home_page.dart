@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getAllDataFirebase() {
-    bandCollection.orderBy('band',descending: true).get().then((value) {
+    bandCollection.orderBy('band', descending: true).get().then((value) {
       value.docs.forEach((element) {
         Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
         myBands.add(myMap);
@@ -88,29 +88,48 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  addShowDialog() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)
+          ),
+          title: Text("Add band"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: InputDecoration(hintText: "Band"),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              TextField(
+                decoration: InputDecoration(hintText: "Image"),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: (){}, child: Text("Cancel"),),
+            TextButton(onPressed: (){}, child: Text("Add"),),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Example"),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         getDocumentFirebase();
-      //       },
-      //       icon: Icon(Icons.search),
-      //     )
-      //   ],
-      // ),
       backgroundColor: Colors.black87,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //addDocumentFirebase();
-          //addDocumentIdFirebase();
-          //updateDocumentFirebase();
-          deleteDocumentFirebase();
+          addShowDialog();
         },
         child: Icon(Icons.add),
+        backgroundColor: Colors.black87,
       ),
       body: ListView.builder(
         itemCount: myBands.length,
