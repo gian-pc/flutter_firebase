@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo3_firebase_1/models/band_model.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,7 +8,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map> myBands = [];
+  List<BandModel> myBands = [];
   CollectionReference bandCollection =
       FirebaseFirestore.instance.collection('bandas');
 
@@ -27,9 +28,12 @@ class _HomePageState extends State<HomePage> {
       value.docs.forEach((element) {
         Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
         myMap["pk"] = element.id;
-        myBands.add(myMap);
+        myBands.add(BandModel.fromJson(myMap));
+
+
         setState(() {});
       });
+
     });
   }
 
@@ -198,8 +202,8 @@ class _HomePageState extends State<HomePage> {
               return GestureDetector(
                 onLongPress: () {
                   deleteShowDialog(
-                    band: myBands[index]["band"],
-                    pk: myBands[index]["pk"],
+                    band: myBands[index].band,
+                    pk: myBands[index].pk,
                   );
                 },
                 child: Container(
@@ -207,10 +211,10 @@ class _HomePageState extends State<HomePage> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(myBands[index]["image"]))),
+                          image: NetworkImage(myBands[index].image))),
                   child: Center(
                     child: Text(
-                      myBands[index]["band"],
+                      myBands[index].band,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
