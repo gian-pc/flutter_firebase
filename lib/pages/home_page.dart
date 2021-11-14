@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getAllDataFirebase() {
+    myBands.clear();
     bandCollection.orderBy('band', descending: true).get().then((value) {
       value.docs.forEach((element) {
         Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
@@ -136,6 +137,39 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  deleteShowDialog({required String band}) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Delete band"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Are you sure you want to delete...$band?")
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Cancel",
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                "Delete",
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,29 +181,41 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
         backgroundColor: Colors.black87,
       ),
-      body: ListView.builder(
-        itemCount: myBands.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 360,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(myBands[index]["image"]))),
-            child: Center(
-              child: Text(
-                myBands[index]["band"],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40.0,
-                  letterSpacing: 10,
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            getAllDataFirebase();
+          },
+          child: ListView.builder(
+            itemCount: myBands.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onLongPress: () {
+                  deleteShowDialog(band: myBands[index]["band"]);
+                },
+                child: Container(
+                  height: 370,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(myBands[index]["image"]))),
+                  child: Center(
+                    child: Text(
+                      myBands[index]["band"],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 40.0,
+                        letterSpacing: 10,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
