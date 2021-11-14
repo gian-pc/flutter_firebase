@@ -19,11 +19,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   getAllDataFirebase() {
-    print("Message:::::$bandCollection");
-    bandCollection.get().then((value) {
-      print("value::::::${value.docs.runtimeType}");
+    bandCollection.where('band', isEqualTo: 'Disturbed').get().then((value) {
       value.docs.forEach((element) {
-        //print("Document:::::${element.data()}");
         Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
         myBands.add(myMap);
         setState(() {});
@@ -94,17 +91,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Example"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              getDocumentFirebase();
-            },
-            icon: Icon(Icons.search),
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: Text("Example"),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         getDocumentFirebase();
+      //       },
+      //       icon: Icon(Icons.search),
+      //     )
+      //   ],
+      // ),
+      backgroundColor: Colors.black87,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //addDocumentFirebase();
