@@ -26,6 +26,8 @@ class _HomePageState extends State<HomePage> {
     bandCollection.orderBy('band', descending: true).get().then((value) {
       value.docs.forEach((element) {
         Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
+        myMap["pk"] = element.id;
+
         myBands.add(myMap);
         setState(() {});
       });
