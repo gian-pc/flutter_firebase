@@ -70,7 +70,12 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _contador++;
-          _streamController.add(imageList[_contador]);
+          if(_contador<imageList.length){
+            _streamController.add(imageList[_contador]);
+          }else{
+            _streamController.close();
+          }
+
         },
         child: Icon(Icons.add),
       ),
@@ -82,14 +87,23 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
         builder: (BuildContext context, AsyncSnapshot snap) {
           if(snap.hasData){
             return Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Container(
-                  height: 200,
-                  width: 200,
-                  child: snap.data,
+              // child: ClipRRect(
+              //   borderRadius: BorderRadius.circular(20.0),
+              //   child: Container(
+              //     height: 200,
+              //     width: 200,
+              //     child: snap.data,
+              //   ),
+              // )
+              child: AnimatedContainer(
+                width: 200,
+                height: 200,
+                duration: Duration(milliseconds: 600),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.deepPurpleAccent
                 ),
-              )
+              ),
             );
           }
           return Center(
