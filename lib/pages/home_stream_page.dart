@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeStreamPage extends StatefulWidget {
@@ -8,7 +9,15 @@ class HomeStreamPage extends StatefulWidget {
 }
 
 class _HomeStreamPageState extends State<HomeStreamPage> {
-  StreamController<String> _streamController = new StreamController();
+  StreamController<Image> _streamController = new StreamController();
+
+  List<Image> imageList = [
+    Image.network("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",fit: BoxFit.cover,),
+    Image.network("https://images.pexels.com/photos/4063856/pexels-photo-4063856.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",fit: BoxFit.cover,),
+    Image.network("https://images.pexels.com/photos/4063537/pexels-photo-4063537.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",fit: BoxFit.cover,),
+    Image.network("https://images.pexels.com/photos/1771383/pexels-photo-1771383.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",fit: BoxFit.cover,),
+  ];
+
 
   @override
   void initState() {
@@ -59,7 +68,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _streamController.add("Mandarina");
+          _streamController.add(imageList[0]);
         },
         child: Icon(Icons.add),
       ),
@@ -69,16 +78,20 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
       body: StreamBuilder(
         stream: _streamController.stream,
         builder: (BuildContext context, AsyncSnapshot snap) {
-
           if(snap.hasData){
             return Center(
-              child: Text("Data:: ${snap.data}"),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  child: snap.data,
+                ),
+              )
             );
           }
-
-
           return Center(
-            child: Text("Waiting"),
+            child: Text("Waiting.."),
           );
         },
       ),
