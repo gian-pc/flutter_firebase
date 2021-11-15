@@ -206,9 +206,13 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   height: 370,
                   decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(myBands[index].image))),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        myBands[index].image,
+                      ),
+                    ),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
