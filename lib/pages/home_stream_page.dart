@@ -28,17 +28,17 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
     // print("Code here.....");
 
     // Stream 2
-    _streamController.stream.listen(
-      (event) {
-        print("Data recibida:::$event");
-      },
-      onDone: () {
-        print("OnDone");
 
-      },
-      onError: (error) {},
-    );
-    _streamController.add("Hola muchachos");
+    // _streamController.stream.listen(
+    //   (event) {
+    //     print("Data recibida:::$event");
+    //   },
+    //   onDone: () {
+    //     print("OnDone");
+    //   },
+    //   onError: (error) {},
+    // );
+    // _streamController.add("Hola muchachos");
     print("Code here");
   }
 
@@ -58,7 +58,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           _streamController.add("Mandarina");
         },
         child: Icon(Icons.add),
@@ -66,7 +66,22 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
       appBar: AppBar(
         title: Text("Stream"),
       ),
-      body: Center(),
+      body: StreamBuilder(
+        stream: _streamController.stream,
+        builder: (BuildContext context, AsyncSnapshot snap) {
+
+          if(snap.hasData){
+            return Center(
+              child: Text("Data:: ${snap.data}"),
+            );
+          }
+
+
+          return Center(
+            child: Text("Waiting"),
+          );
+        },
+      ),
     );
   }
 }
