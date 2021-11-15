@@ -9,7 +9,7 @@ class HomeStreamPage extends StatefulWidget {
 }
 
 class _HomeStreamPageState extends State<HomeStreamPage> {
-  StreamController<Image> _streamController = new StreamController();
+  StreamController<Map> _streamController = new StreamController();
 
   List<Image> imageList = [
     Image.network("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",fit: BoxFit.cover,),
@@ -17,6 +17,40 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
     Image.network("https://images.pexels.com/photos/4063537/pexels-photo-4063537.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",fit: BoxFit.cover,),
     Image.network("https://images.pexels.com/photos/1771383/pexels-photo-1771383.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",fit: BoxFit.cover,),
   ];
+
+  List<Map> mapList = [
+    {
+      "height":30.0,
+      "width":100.0,
+      "color":Colors.red,
+      "radius":30.0,
+      "duration":700,
+    },
+    {
+      "height":200.0,
+      "width":200.0,
+      "color":Colors.blueAccent,
+      "radius":60.0,
+      "duration":700,
+    },
+    {
+      "height":200.0,
+      "width":20.0,
+      "color":Colors.greenAccent,
+      "radius":30.0,
+      "duration":700,
+    },
+    {
+      "height":30.0,
+      "width":200.0,
+      "color":Colors.deepPurpleAccent,
+      "radius":30.0,
+      "duration":700,
+    }
+
+  ];
+
+
 
   int _contador = -1;
 
@@ -71,7 +105,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
         onPressed: () {
           _contador++;
           if(_contador<imageList.length){
-            _streamController.add(imageList[_contador]);
+           _streamController.add(mapList[_contador]);
           }else{
             _streamController.close();
           }
@@ -96,12 +130,12 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
               //   ),
               // )
               child: AnimatedContainer(
-                width: 200,
-                height: 200,
-                duration: Duration(milliseconds: 600),
+                width: snap.data["width"],
+                height: snap.data["height"],
+                duration: Duration(milliseconds: snap.data["duration"]),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.deepPurpleAccent
+                  borderRadius: BorderRadius.circular(snap.data["radius"]),
+                  color: snap.data["color"]
                 ),
               ),
             );
