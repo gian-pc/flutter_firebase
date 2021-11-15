@@ -18,6 +18,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
     Image.network("https://images.pexels.com/photos/1771383/pexels-photo-1771383.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",fit: BoxFit.cover,),
   ];
 
+  int _contador = -1;
 
   @override
   void initState() {
@@ -68,7 +69,8 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _streamController.add(imageList[0]);
+          _contador++;
+          _streamController.add(imageList[_contador]);
         },
         child: Icon(Icons.add),
       ),
